@@ -1,37 +1,99 @@
 import React from 'react';
+import { useDispatchState, useGlobalState } from '../../context/GlobalStateProvider';
 import trash from '../../assets/trash.svg';
 import plus from '../../assets/plus.svg';
 import styles from './ItemsListSection.module.css';
 
-export const ItemsListSection: React.FC = () => (
-  <section className={styles.section}>
-    <h2 className={styles.heading}>Items List</h2>
-    <div className={styles.itemRow}>
-      <div style={{ flex: 2 }}>
-        <label className={styles.label}>Item Name</label>
-        <input type="text" className={styles.input} />
-      </div>
-      <div style={{ flex: 1 }}>
-        <label className={styles.label}>Qty.</label>
-        <input type="number" className={styles.input} />
-      </div>
-      <div style={{ flex: 1 }}>
-        <label className={styles.label}>Price</label>
-        <input type="number" className={styles.input} />
-      </div>
-      <div style={{ flex: 1 }}>
-        <label className={styles.label}>Total</label>
-        <input type="number" className={styles.input} readOnly />
-      </div>
-      <div className={styles.trashIconContainer}>
-        <img className={styles.trashIcon} src={trash} alt="Trash" />
-      </div>
-    </div>
-    <button type="button" className={styles.button}>
-      <div className={styles.buttonText}>
-        <img src={plus} alt="Plus" width={12} height={12} />
-        <>Add New Item</>
-      </div>
-    </button>
-  </section>
-);
+interface Item {
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+}
+
+export const ItemsListSection: React.FC = () => {
+  const { items } = useGlobalState();
+  const dispatch = useDispatchState();
+
+  const handleItemChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const updatedItems = items.map((item: Item, i: number) => {
+      if (i === index) {
+        const updatedItem = { ...item, [name]: name === 'quantity' || name === 'price' ? parseFloat(value) : value };
+        updatedItem.total = updatedItem.quantity * updatedItem.price;
+        return updatedItem;
+      }
+      return item;
+    });
+    dispatch({ type: 'UPDATE_ITEMS', payload: updatedItems });
+  };
+
+  const addItem = () => {
+    const newItem: Item = { name: '', quantity: 0, price: 0, total: 0 };
+    dispatch({ type: 'UPDATE_ITEMS', payload: [...items, newItem] });
+  };
+
+  const removeItem = (index: number) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    dispatch({ type: 'UPDATE_ITEMS', payload: updatedItems });
+  };
+
+  return (
+    <section className={styles.section}>
+      <h2 className={styles.heading}>Items List</h2>
+      {items.map((item: Item, index: number) => (
+        <div key={index} className={styles.itemRow}>
+          <div style={{ flex: 2 }}>
+            <label className={styles.label}>Item Name</label>
+            <input
+              type="text"
+              className={styles.input}
+              name="name"
+              value={item.name}
+              onChange={(e) => handleItemChange(index, e)}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label className={styles.label}>Qty.</label>
+            <input
+              type="number"
+              className={styles.input}
+              name="quantity"
+              value={item.quantity}
+              onChange={(e) => handleItemChange(index, e)}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label className={styles.label}>Price</label>
+            <input
+              type="number"
+              className={styles.input}
+              name="price"
+              value={item.price}
+              onChange={(e) => handleItemChange(index, e)}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label className={styles.label}>Total</label>
+            <input
+              type="number"
+              className={styles.input}
+              name="total"
+              value={item.total}
+              readOnly
+            />
+          </div>
+          <div className={styles.trashIconContainer} onClick={() => removeItem(index)}>
+            <img className={styles.trashIcon} src={trash} alt="Trash" />
+          </div>
+        </div>
+      ))}
+      <button type="button" className={styles.button} onClick={addItem}>
+        <div className={styles.buttonText}>
+          <img src={plus} alt="Plus" width={12} height={12} />
+          <>Add New Item</>
+        </div>
+      </button>
+    </section>
+  );
+};
