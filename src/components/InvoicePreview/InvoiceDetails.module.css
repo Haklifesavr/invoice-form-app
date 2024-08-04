@@ -1,0 +1,31 @@
+.invoiceTitle {
+  font-weight: 600;
+  font-size: 18px;
+  border-bottom: 1px solid #eaecf0;
+  padding-bottom: 16px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.detailColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.label {
+  color: #76787d;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.value {
+  color: #101828;
+  font-size: 16px;
+  font-weight: 500;
+}

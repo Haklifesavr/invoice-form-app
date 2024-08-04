@@ -1,0 +1,58 @@
+/* SummarySection.module.css */
+
+.container {
+    display: flex;
+    margin-top: 12px;
+    border-top: 1px solid #EAECF0;
+    padding-top: 24px;
+  }
+  
+  .summaryRow {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .labelContainer {
+    display: flex;
+    justify-content: flex-end;
+    flex: 2;
+  }
+  
+  .valueContainer {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+  }
+  
+  .marginLeftSmall {
+    margin-left: -50px;
+  }
+  
+  .marginLeftLarge {
+    margin-left: -110px;
+  }
+  
+  .label {
+    color: #101828;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .totalLabel {
+    color: #101828;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .value {
+    color: #101828;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .totalValue {
+    color: #101828;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
