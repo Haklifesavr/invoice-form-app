@@ -1,0 +1,23 @@
+.toastContainer {
+  padding: 5px;
+}
+
+.toastMessage {
+  font-family: 'Rubik';
+  font-size: 14px;
+  font-weight: 500;
+  color: #555555;
+}
+
+.toastSubtext {
+  font-family: 'Rubik';
+  margin: 5px 0 0 30.5px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #8e8e8e;
+}
+
+.icon {
+  height: 20px;
+  width: 20px;
+}

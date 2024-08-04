@@ -5,12 +5,8 @@ import { ItemsListSection } from './ItemsListSection';
 import styles from './index.module.css';
 
 const InvoiceForm: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
-
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form}>
       <BillFromSection />
       <BillToSection />
       <ItemsListSection />
