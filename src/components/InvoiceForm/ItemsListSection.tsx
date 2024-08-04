@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatchState, useGlobalState } from '../../context/GlobalStateProvider';
 import trash from '../../assets/trash.svg';
 import plus from '../../assets/plus.svg';
@@ -14,6 +14,12 @@ interface Item {
 export const ItemsListSection: React.FC = () => {
   const { items } = useGlobalState();
   const dispatch = useDispatchState();
+
+  useEffect(() => {
+    if (items.length === 0) {
+      addItem();
+    }
+  }, [items]);
 
   const handleItemChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
