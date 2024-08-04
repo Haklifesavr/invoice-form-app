@@ -1,7 +1,23 @@
 import React from 'react';
 import styles from './ItemsTable.module.css';
 
-const ItemsTable: React.FC = () => {
+interface Item {
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+}
+
+interface ItemsTableProps {
+  items: Item[];
+}
+
+const ItemsTable: React.FC<ItemsTableProps> = ({ items }) => {
+  // Filter out rows where all fields are empty
+  const filteredItems = items.filter(item => 
+    item.name !== '' || item.quantity !== 0 || item.price !== 0 || item.total !== 0
+  );
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -14,12 +30,14 @@ const ItemsTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className={styles.td}>Banner Design</td>
-            <td className={`${styles.td} ${styles.tdCenter}`}>1</td>
-            <td className={`${styles.td} ${styles.tdRight}`}>$ 120</td>
-            <td className={`${styles.td} ${styles.tdRight}`}>$ 120.00</td>
-          </tr>
+          {filteredItems.map((item, index) => (
+            <tr key={index}>
+              <td className={styles.td}>{item.name}</td>
+              <td className={`${styles.td} ${styles.tdCenter}`}>{item.quantity}</td>
+              <td className={`${styles.td} ${styles.tdRight}`}>$ {item.price}</td>
+              <td className={`${styles.td} ${styles.tdRight}`}>$ {item.total.toFixed(2)}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

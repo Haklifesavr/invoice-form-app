@@ -1,7 +1,22 @@
 import React from 'react';
 import styles from './SummarySection.module.css';
 
-const SummarySection: React.FC = () => {
+interface Item {
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+}
+
+interface SummarySectionProps {
+  items: Item[];
+}
+
+const SummarySection: React.FC<SummarySectionProps> = ({ items }) => {
+  const subtotal = items.reduce((acc, item) => acc + item.total, 0);
+  const tax = 0.1 * subtotal;
+  const total = subtotal + tax;
+
   return (
     <div>
       <div className={styles.container}>
@@ -9,7 +24,7 @@ const SummarySection: React.FC = () => {
           <p className={styles.label}>Subtotal</p>
         </div>
         <div className={styles.valueContainer}>
-          <p className={styles.value}>$ 320.00</p>
+          <p className={styles.value}>$ {subtotal.toFixed(2)}</p>
         </div>
       </div>
       <div className={styles.summaryRow}>
@@ -25,7 +40,7 @@ const SummarySection: React.FC = () => {
           <p className={styles.totalLabel}>Total</p>
         </div>
         <div className={styles.valueContainer}>
-          <p className={styles.totalValue}>$ 352.00</p>
+          <p className={styles.totalValue}>$ {total.toFixed(2)}</p>
         </div>
       </div>
     </div>

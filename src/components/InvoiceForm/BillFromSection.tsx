@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatchState, useGlobalState } from '../../context/GlobalStateProvider';
 import { countries } from '../../utils/countries';
 import styles from './BillFromSection.module.css';
 
 export const BillFromSection: React.FC = () => {
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const { billFrom } = useGlobalState();
+  const dispatch = useDispatchState();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    dispatch({ type: 'UPDATE_BILL_FROM', payload: { [name]: value } });
+  };
 
   return (
     <section className={styles.section}>
@@ -11,11 +18,23 @@ export const BillFromSection: React.FC = () => {
       <div className={styles.row}>
         <div style={{ flex: 1 }}>
           <label className={styles.label}>Company Name</label>
-          <input type="text" className={styles.input} />
+          <input
+            type="text"
+            className={styles.input}
+            name="companyName"
+            value={billFrom.companyName}
+            onChange={handleChange}
+          />
         </div>
         <div style={{ flex: 1 }}>
           <label className={styles.label}>Company Email</label>
-          <input type="email" className={styles.input} />
+          <input
+            type="email"
+            className={styles.input}
+            name="companyEmail"
+            value={billFrom.companyEmail}
+            onChange={handleChange}
+          />
         </div>
       </div>
       <div className={styles.row}>
@@ -23,8 +42,9 @@ export const BillFromSection: React.FC = () => {
           <label className={styles.label}>Country</label>
           <select
             className={styles.select}
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
+            name="country"
+            value={billFrom.country}
+            onChange={handleChange}
           >
             <option value="" disabled hidden>
               Select Country
@@ -38,16 +58,34 @@ export const BillFromSection: React.FC = () => {
         </div>
         <div style={{ flex: 1 }}>
           <label className={styles.label}>City</label>
-          <input type="text" className={styles.input} />
+          <input
+            type="text"
+            className={styles.input}
+            name="city"
+            value={billFrom.city}
+            onChange={handleChange}
+          />
         </div>
         <div style={{ flex: 1 }}>
           <label className={styles.label}>Postal Code</label>
-          <input type="text" className={styles.input} />
+          <input
+            type="text"
+            className={styles.input}
+            name="postalCode"
+            value={billFrom.postalCode}
+            onChange={handleChange}
+          />
         </div>
       </div>
       <div>
         <label className={styles.label}>Street Address</label>
-        <input type="text" className={styles.input} />
+        <input
+          type="text"
+          className={styles.input}
+          name="streetAddress"
+          value={billFrom.streetAddress}
+          onChange={handleChange}
+        />
       </div>
     </section>
   );

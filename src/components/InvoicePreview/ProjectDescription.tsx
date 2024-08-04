@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './ProjectDescription.module.css';
 
-const ProjectDescription: React.FC = () => {
+interface ProjectDescriptionProps {
+  description: string;
+}
+
+const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ description }) => {
   return (
     <div className={styles.container}>
-      <p className={styles.descriptionLabel}>
-        Project Description
-      </p>
-      <p className={styles.descriptionText}>
-        Graphic Design Project
-      </p>
+      <p className={styles.descriptionLabel}>Project Description</p>
+      <p className={styles.descriptionText}>{description || ''}</p>
     </div>
   );
 };
