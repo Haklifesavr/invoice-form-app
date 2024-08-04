@@ -1,0 +1,119 @@
+.container {
+  display: flex;
+  margin-top: 12px;
+  border-top: 1px solid #eaecf0;
+  padding-top: 24px;
+  gap: 10px;
+}
+
+.summaryRow {
+  display: flex;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: flex-end;
+  flex: 2;
+}
+
+.valueContainer {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.marginLeftSmall {
+  margin-left: -50px;
+}
+
+.marginLeftLarge {
+  margin-left: -110px;
+}
+
+.label {
+  color: #101828;
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.totalLabel {
+  color: #101828;
+  font-size: 20px;
+  font-weight: 700;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.value {
+  color: #101828;
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.totalValue {
+  color: #101828;
+  font-size: 20px;
+  font-weight: 700;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .label, .value {
+    font-size: 14px;
+    max-width: 80px;
+  }
+
+  .totalLabel, .totalValue {
+    font-size: 18px;
+    max-width: 120px;
+  }
+
+  .marginLeftSmall {
+    margin-left: -30px;
+  }
+
+  .marginLeftLarge {
+    margin-left: -70px;
+  }
+}
+
+@media (max-width: 550px) {
+  .container,
+  .summaryRow {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+  }
+
+  .labelContainer,
+  .valueContainer {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .marginLeftSmall,
+  .marginLeftLarge {
+    margin-left: 0;
+  }
+
+  .label, .value, .totalLabel, .totalValue {
+    text-align: left;
+    font-size: 14px;
+  }
+}

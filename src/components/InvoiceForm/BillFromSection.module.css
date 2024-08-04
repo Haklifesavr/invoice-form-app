@@ -1,0 +1,48 @@
+.section {
+  margin-bottom: 20px;
+}
+
+.heading {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 24px;
+  color: #101828;
+}
+
+.row {
+  margin-bottom: 6px;
+  display: flex;
+  gap: 10px;
+}
+
+.label {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.input {
+  padding: 8px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+select {
+  padding: 8px;
+  margin-top: 8px;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .input,
+  select {
+    width: 100%;
+  }
+}
