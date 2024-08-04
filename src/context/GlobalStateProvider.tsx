@@ -51,7 +51,7 @@ interface UpdateItemsAction {
 
 type Action = UpdateBillFromAction | UpdateBillToAction | UpdateItemsAction;
 
-const initialState: State = {
+export const initialState: State = {
   billFrom: {
     companyName: '',
     companyEmail: '',
