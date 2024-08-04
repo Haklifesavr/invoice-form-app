@@ -3,12 +3,16 @@
   font-size: 18px;
   border-bottom: 1px solid #eaecf0;
   padding-bottom: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .detailRow {
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
+  gap: 10px;
 }
 
 .detailColumn {
@@ -16,16 +20,36 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 100%;
 }
 
 .label {
   color: #76787d;
   font-size: 16px;
   font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .value {
   color: #101828;
   font-size: 16px;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive Design */
+@media (max-width: 550px) {
+  .detailRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detailColumn {
+    width: 100%;
+    margin-bottom: 16px;
+  }
 }

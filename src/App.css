@@ -9,6 +9,7 @@
 /* Custom Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 9px;
+  height: 9px;
 }
 
 ::-webkit-scrollbar-track {
@@ -78,7 +79,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 /* Responsive Layout Adjustments */
-@media (max-width: 768px) {
+@media (max-width: 872px) {
   .App-content {
     flex-direction: column;
   }

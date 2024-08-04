@@ -3,16 +3,23 @@
   flex-direction: column;
   gap: 16px;
   margin-top: 28px;
+  max-width: 100%;
 }
 
 .descriptionLabel {
   color: #76787d;
   font-size: 16px;
   font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .descriptionText {
   color: #101828;
   font-size: 16px;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { countries } from '../../utils/countries';
 import { paymentTerms } from '../../utils/paymentTerms';
 import styles from './BillToSection.module.css';
 
 export const BillToSection: React.FC = () => {
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedTerm, setSelectedTerm] = useState('');
   const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
 
   return (
@@ -22,8 +24,12 @@ export const BillToSection: React.FC = () => {
       <div className={styles.row}>
         <div style={{ flex: 1 }}>
           <label className={styles.label}>Country</label>
-          <select className={styles.select}>
-            <option value="" disabled selected hidden>
+          <select
+            className={styles.select}
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+          >
+            <option value="" disabled hidden>
               Select Country
             </option>
             {countries.map((country, index) => (
@@ -57,12 +63,16 @@ export const BillToSection: React.FC = () => {
         </div>
         <div style={{ flex: 1 }}>
           <label className={styles.label}>Payment Terms</label>
-          <select className={styles.select}>
-            <option value="" disabled selected hidden>
+          <select
+            className={styles.select}
+            value={selectedTerm}
+            onChange={(e) => setSelectedTerm(e.target.value)}
+          >
+            <option value="" disabled hidden>
               Select Term
             </option>
             {paymentTerms.map((term, index) => (
-              <option key={index} value={term.value}>
+              <option key={index} value={term.label}>
                 {term.label}
               </option>
             ))}

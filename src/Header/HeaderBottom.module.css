@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
 .title {
@@ -40,4 +41,16 @@
 
 .saveButton:hover {
   background-color: #8c62e7;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 500px) {
+  .headerBottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .buttons {
+    margin-top: 10px;
+  }
 }
