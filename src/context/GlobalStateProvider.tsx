@@ -1,4 +1,10 @@
-import React, { createContext, useReducer, useContext, Dispatch, ReactNode } from 'react';
+import React, {
+  createContext,
+  useReducer,
+  useContext,
+  Dispatch,
+  ReactNode,
+} from 'react';
 
 interface BillFrom {
   companyName: string;
@@ -28,10 +34,17 @@ interface Item {
   total: number;
 }
 
+interface ValidationState {
+  billFrom: Record<keyof BillFrom, boolean>;
+  billTo: Record<keyof BillTo, boolean>;
+  items: { name: boolean; quantity: boolean; price: boolean; total: boolean }[];
+}
+
 interface State {
   billFrom: BillFrom;
   billTo: BillTo;
   items: Item[];
+  validation: ValidationState;
 }
 
 interface UpdateBillFromAction {
@@ -49,7 +62,16 @@ interface UpdateItemsAction {
   payload: Item[];
 }
 
-type Action = UpdateBillFromAction | UpdateBillToAction | UpdateItemsAction;
+interface UpdateValidationAction {
+  type: 'UPDATE_VALIDATION';
+  payload: Partial<ValidationState>;
+}
+
+type Action =
+  | UpdateBillFromAction
+  | UpdateBillToAction
+  | UpdateItemsAction
+  | UpdateValidationAction;
 
 export const initialState: State = {
   billFrom: {
@@ -72,10 +94,34 @@ export const initialState: State = {
     paymentTerms: '',
   },
   items: [],
+  validation: {
+    billFrom: {
+      companyName: true,
+      companyEmail: true,
+      country: true,
+      city: true,
+      postalCode: true,
+      streetAddress: true,
+    },
+    billTo: {
+      clientName: true,
+      clientEmail: true,
+      country: true,
+      city: true,
+      postalCode: true,
+      streetAddress: true,
+      projectDescription: true,
+      invoiceDate: true,
+      paymentTerms: true,
+    },
+    items: [],
+  },
 };
 
 const GlobalStateContext = createContext<State | undefined>(undefined);
-const DispatchStateContext = createContext<Dispatch<Action> | undefined>(undefined);
+const DispatchStateContext = createContext<Dispatch<Action> | undefined>(
+  undefined,
+);
 
 export const useGlobalState = (): State => {
   const context = useContext(GlobalStateContext);
@@ -88,7 +134,9 @@ export const useGlobalState = (): State => {
 export const useDispatchState = (): Dispatch<Action> => {
   const context = useContext(DispatchStateContext);
   if (context === undefined) {
-    throw new Error('useDispatchState must be used within a GlobalStateProvider');
+    throw new Error(
+      'useDispatchState must be used within a GlobalStateProvider',
+    );
   }
   return context;
 };
@@ -110,12 +158,19 @@ const globalReducer = (state: State, action: Action): State => {
         ...state,
         items: action.payload,
       };
+    case 'UPDATE_VALIDATION':
+      return {
+        ...state,
+        validation: { ...state.validation, ...action.payload },
+      };
     default:
       return state;
   }
 };
 
-export const GlobalStateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const GlobalStateProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
   return (

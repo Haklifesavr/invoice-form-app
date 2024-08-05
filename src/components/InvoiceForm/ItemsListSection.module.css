@@ -26,6 +26,10 @@
   width: 100%;
 }
 
+.inputError {
+  border-color: red;
+}
+
 .trashIconContainer {
   display: flex;
   align-items: flex-end;

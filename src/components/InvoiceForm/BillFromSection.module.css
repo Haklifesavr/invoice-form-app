@@ -26,6 +26,10 @@
   width: 100%;
 }
 
+.inputError {
+  border-color: red;
+}
+
 select {
   padding: 8px;
   margin-top: 8px;
