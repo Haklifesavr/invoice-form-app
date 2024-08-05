@@ -1,61 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   useGlobalState,
   useDispatchState,
   initialState,
 } from '../../context/GlobalStateProvider';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { CREATE_INVOICE } from '../../utils/mutation';
 import { toast } from 'react-toastify';
 import { Toast } from '../Toast';
 import styles from './HeaderBottom.module.css';
 
-// GraphQL mutation
-const CREATE_INVOICE = gql`
-  mutation CreateInvoice($input: CreateInvoiceInput!) {
-    createInvoice(input: $input) {
-      id
-      billingFrom {
-        companyName
-        companyEmail
-        billingFromAddress {
-          streetAddress
-          city
-          postalCode
-          country
-        }
-      }
-      billingTo {
-        clientName
-        clientEmail
-        billingToAddress {
-          streetAddress
-          city
-          postalCode
-          country
-        }
-      }
-      invoiceDate
-      items {
-        name
-        quantity
-        price
-        totalPrice
-      }
-      paymentTerms
-      projectDescription
-      subTotal
-      tax
-      totalAmount
-    }
-  }
-`;
+// Loader component (CSS Spinner)
+const Loader: React.FC = () => (
+  <div className={styles.loader}></div>
+);
 
 const HeaderBottom: React.FC = () => {
-  const { billFrom, billTo, items } = useGlobalState();
+  const { billFrom, billTo, items, validation } = useGlobalState();
   const dispatch = useDispatchState();
   const [createInvoice] = useMutation(CREATE_INVOICE);
+  const [loading, setLoading] = useState(false);
+
+  const validateForm = (): boolean => {
+    let isFormValid = true;
+
+    const updatedBillFromValidation = { ...validation.billFrom };
+    const updatedBillToValidation = { ...validation.billTo };
+    const updatedItemsValidation = validation.items.map((itemValidation) => ({
+      ...itemValidation,
+    }));
+
+    // Validate billFrom fields
+    for (const [key, value] of Object.entries(billFrom)) {
+      const isValid = value.trim() !== '';
+      updatedBillFromValidation[key as keyof typeof billFrom] = isValid;
+      if (!isValid) isFormValid = false;
+    }
+
+    // Validate billTo fields
+    for (const [key, value] of Object.entries(billTo)) {
+      const isValid = value.trim() !== '';
+      updatedBillToValidation[key as keyof typeof billTo] = isValid;
+      if (!isValid) isFormValid = false;
+    }
+
+    // Validate items
+    items.forEach((item, index) => {
+      const isValidName = item.name.trim() !== '';
+      const isValidQuantity = item.quantity > 0;
+      const isValidPrice = item.price > 0;
+
+      updatedItemsValidation[index] = {
+        name: isValidName,
+        quantity: isValidQuantity,
+        price: isValidPrice,
+        total: isValidQuantity && isValidPrice,
+      };
+
+      if (!isValidName || !isValidQuantity || !isValidPrice) {
+        isFormValid = false;
+      }
+    });
+
+    // Dispatch updated validation state
+    dispatch({
+      type: 'UPDATE_VALIDATION',
+      payload: {
+        billFrom: updatedBillFromValidation,
+        billTo: updatedBillToValidation,
+        items: updatedItemsValidation,
+      },
+    });
+
+    return isFormValid;
+  };
 
   const handleSave = async () => {
+    if (!validateForm()) {
+      toast(
+        <Toast
+          message="Form validation failed"
+          subtext="Please fill all the required fields before saving."
+          type="error"
+        />,
+        {
+          closeButton: false,
+        },
+      );
+      return;
+    }
+
+    setLoading(true);
+
     const formData = {
       createInvoiceAttributes: {
         billingFromAttributes: {
@@ -100,7 +136,7 @@ const HeaderBottom: React.FC = () => {
           />,
           {
             closeButton: false,
-          }
+          },
         );
         handleReset();
       }
@@ -113,9 +149,11 @@ const HeaderBottom: React.FC = () => {
         />,
         {
           closeButton: false,
-        }
+        },
       );
       console.error('Error creating invoice:', error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -123,6 +161,7 @@ const HeaderBottom: React.FC = () => {
     dispatch({ type: 'UPDATE_BILL_FROM', payload: initialState.billFrom });
     dispatch({ type: 'UPDATE_BILL_TO', payload: initialState.billTo });
     dispatch({ type: 'UPDATE_ITEMS', payload: initialState.items });
+    dispatch({ type: 'UPDATE_VALIDATION', payload: initialState.validation });
   };
 
   return (
@@ -132,11 +171,11 @@ const HeaderBottom: React.FC = () => {
         <p className={styles.subtitle}>Create new invoice for your customers</p>
       </div>
       <div className={styles.buttons}>
-        <button className={styles.resetButton} onClick={handleReset}>
+        <button className={styles.resetButton} onClick={handleReset} disabled={loading}>
           Reset
         </button>
-        <button className={styles.saveButton} onClick={handleSave}>
-          Save
+        <button className={styles.saveButton} onClick={handleSave} disabled={loading}>
+          {loading ? <Loader /> : 'Save'}
         </button>
       </div>
     </div>

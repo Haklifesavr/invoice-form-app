@@ -12,7 +12,7 @@ interface Item {
 }
 
 export const ItemsListSection: React.FC = () => {
-  const { items } = useGlobalState();
+  const { items, validation } = useGlobalState();
   const dispatch = useDispatchState();
 
   useEffect(() => {
@@ -25,7 +25,10 @@ export const ItemsListSection: React.FC = () => {
     const { name, value } = e.target;
     const updatedItems = items.map((item: Item, i: number) => {
       if (i === index) {
-        const updatedItem = { ...item, [name]: name === 'quantity' || name === 'price' ? parseFloat(value) : value };
+        const updatedItem = {
+          ...item,
+          [name]: name === 'quantity' || name === 'price' ? parseFloat(value) : value,
+        };
         updatedItem.total = updatedItem.quantity * updatedItem.price;
         return updatedItem;
       }
@@ -37,11 +40,22 @@ export const ItemsListSection: React.FC = () => {
   const addItem = () => {
     const newItem: Item = { name: '', quantity: 0, price: 0, total: 0 };
     dispatch({ type: 'UPDATE_ITEMS', payload: [...items, newItem] });
+
+    // Initialize validation state for the new item
+    const newValidation = { name: true, quantity: true, price: true, total: true };
+    dispatch({
+      type: 'UPDATE_VALIDATION',
+      payload: {
+        items: [...validation.items, newValidation],
+      },
+    });
   };
 
   const removeItem = (index: number) => {
     const updatedItems = items.filter((_, i) => i !== index);
+    const updatedValidationItems = validation.items.filter((_, i) => i !== index);
     dispatch({ type: 'UPDATE_ITEMS', payload: updatedItems });
+    dispatch({ type: 'UPDATE_VALIDATION', payload: { items: updatedValidationItems } });
   };
 
   return (
@@ -53,7 +67,7 @@ export const ItemsListSection: React.FC = () => {
             <label className={styles.label}>Item Name</label>
             <input
               type="text"
-              className={styles.input}
+              className={`${styles.input} ${!validation.items[index]?.name && styles.inputError}`}
               name="name"
               value={item.name}
               onChange={(e) => handleItemChange(index, e)}
@@ -63,7 +77,7 @@ export const ItemsListSection: React.FC = () => {
             <label className={styles.label}>Qty.</label>
             <input
               type="number"
-              className={styles.input}
+              className={`${styles.input} ${!validation.items[index]?.quantity && styles.inputError}`}
               name="quantity"
               value={item.quantity}
               onChange={(e) => handleItemChange(index, e)}
@@ -73,7 +87,7 @@ export const ItemsListSection: React.FC = () => {
             <label className={styles.label}>Price</label>
             <input
               type="number"
-              className={styles.input}
+              className={`${styles.input} ${!validation.items[index]?.price && styles.inputError}`}
               name="price"
               value={item.price}
               onChange={(e) => handleItemChange(index, e)}
@@ -83,7 +97,7 @@ export const ItemsListSection: React.FC = () => {
             <label className={styles.label}>Total</label>
             <input
               type="number"
-              className={styles.input}
+              className={`${styles.input} ${!validation.items[index]?.total && styles.inputError}`}
               name="total"
               value={item.total}
               readOnly
