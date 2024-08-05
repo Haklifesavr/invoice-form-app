@@ -60,6 +60,12 @@ You can review the detailed pull requests for each step of the development proce
     npm install
     ```
 
+    If the above command doesn't work, try:
+
+    ```bash
+    npm install --force
+    ```
+
 3. Run the development server:
 
     ```bash
