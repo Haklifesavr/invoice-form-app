@@ -1,46 +1,137 @@
-# Getting Started with Create React App
+# Invoice Form Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This project is an Invoice Form application built using React.js with TypeScript. The application allows users to create invoices with real-time data updates, reset the form, save the data to a GraphQL API, and receive feedback via toast messages upon successful creation of an invoice. The application is designed to be responsive and pixel-perfect according to the provided Figma design.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### Invoice Form
+- **Bill From, Bill To, Invoice Details, and Items List:** Sections included as per the Figma design.
+- **Form Validation:** All fields are required. Validations are implemented to ensure no field is left empty before submission.
+- **Invoice Date:** Set to the current date by default.
+- **Price Calculation:** Calculates the price of a single item based on Quantity and Price inputs.
+- **Total Price Calculation:** Calculates the total price of all items after applying a 10% tax.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Real-Time Data Display
+- **Real-Time Updates:** The right-hand side of the page displays the real-time invoice data as the user fills in the form.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Reset Functionality
+- **Form Reset:** A Reset button is provided to clear the form fields and the real-time data display.
 
-### `npm test`
+### Save Functionality
+- **GraphQL Integration:** Upon saving, a mutation is sent to the GraphQL API to save the invoice data.
+- **Toast Notification:** A toast message saying "Invoice created successfully!" is displayed upon successful data submission.
+- **Form Reset After Save:** The form resets to its empty state after saving.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Design & Responsiveness
+- **Pixel-Perfect Design:** The design is ensured to be pixel-perfect as per the Figma design provided.
+- **Responsive Layout:** The form and preview panel layout are responsive and work across different screen sizes.
 
-### `npm run build`
+## Technology Stack
+- **React.js** with **TypeScript**: For building the UI components.
+- **useReducer** and **useContext**: For global state management and custom form validation.
+- **Apollo Client**: For managing GraphQL API interactions.
+- **CSS/Styled-Components**: For styling and ensuring the design matches the provided Figma prototype.
+- **React-Toastify**: For displaying toast messages.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Deployment
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The application is deployed and can be accessed via the following link:
+[Invoice Form Application Deployment](https://invoice-form-app.vercel.app/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Pull Requests
 
-### `npm run eject`
+You can review the detailed pull requests for each step of the development process via the following link:
+[Invoice Form Application Pull Requests](https://github.com/Haklifesavr/invoice-form-app/pulls?q=is%3Apr+is%3Aclosed)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Project Setup and Installation
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repository:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    ```bash
+    git clone https://github.com/Haklifesavr/invoice-form-app.git
+    cd invoice-form-app
+    ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+2. Install dependencies:
 
-## Learn More
+    ```bash
+    npm install
+    ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Run the development server:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ```bash
+    npm start
+    ```
+
+4. Open the application in your browser at `http://localhost:3000`.
+
+## Project Implementation Steps
+
+### 1. **Project Setup and Initial Configuration**
+   - **Title:** Project Setup and Initial Configuration
+   - **Description:** 
+     - Set up the React.js project with TypeScript.
+     - Install necessary dependencies such as `react-toastify`, `@apollo/client` and `graphql`.
+     - Configure ESLint and Prettier for code quality and formatting.
+     - Initialize Git repository with `.gitignore` file and create an initial commit.
+
+### 2. **Create Basic Layout Components**
+   - **Title:** Create Basic Layout Components
+   - **Description:** 
+     - Develop the overall layout structure including the `Header`, `InvoiceForm`, and `InvoicePreview` components.
+     - Implement a responsive layout with CSS or styled-components.
+     - Ensure the design is pixel-perfect according to the Figma design.
+
+### 3. **Implement Form Validation and State Management**
+   - **Title:** Implement Form Validation and State Management
+   - **Description:** 
+     - Implement validation for all required fields, ensuring proper user feedback on errors.
+     - Integrate the form with React state management for real-time data display in the preview.
+
+### 4. **Add Invoice Item List Functionality**
+   - **Title:** Add Invoice Item List Functionality
+   - **Description:** 
+     - Create a dynamic `ItemsList` component to handle the addition and removal of invoice items.
+     - Calculate item totals based on quantity and price.
+     - Display the real-time item total in the InvoicePreview panel.
+
+### 5. **Implement Invoice Total Calculation**
+   - **Title:** Implement Invoice Total Calculation
+   - **Description:** 
+     - Calculate the subtotal of all items and apply a 10% tax deduction.
+     - Display the calculated totals in real-time within the `InvoicePreview` component.
+
+### 6. **Add Invoice Terms and Date Functionality**
+   - **Title:** Add Invoice Terms and Date Functionality
+   - **Description:** 
+     - Implement a dropdown for selecting `InvoiceTermsEnum` values.
+     - Set the `Invoice Date` to the current date by default.
+     - Ensure that the selected terms and date are displayed in real-time on the preview panel.
+
+### 7. **Implement Form Reset Functionality**
+   - **Title:** Implement Form Reset Functionality
+   - **Description:** 
+     - Add a Reset button that clears all form fields and resets the InvoicePreview panel to its initial state.
+     - Ensure the form is reset to its default values without any residual data.
+
+### 8. **Implement Save Functionality and GraphQL Integration**
+   - **Title:** Implement Save Functionality and GraphQL Integration
+   - **Description:** 
+     - Set up Apollo Client and create a GraphQL mutation to save the invoice data.
+     - Connect the form submission with the GraphQL mutation.
+     - Display a toast message "Invoice created successfully!" upon successful data submission.
+     - Reset the form and preview panel after the data is successfully saved.
+
+### 9. **Responsive Design and Final Styling**
+   - **Title:** Responsive Design and Final Styling
+   - **Description:** 
+     - Ensure the entire application is responsive and works seamlessly across different screen sizes.
+     - Fine-tune the CSS to ensure a pixel-perfect design that matches the Figma prototype.
+     - Test the application for different device widths and make necessary adjustments.
+
+## Conclusion
+
+This project showcases the development of a responsive and interactive Invoice Form application with real-time data updates, form validation, and integration with a GraphQL API. The implementation adheres to the provided Figma design, ensuring a pixel-perfect and user-friendly interface.
